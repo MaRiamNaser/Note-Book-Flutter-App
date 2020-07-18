@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_book_flutter_app/database/helper.dart';
 import 'package:note_book_flutter_app/dialog/confirmation_dialog.dart';
+import 'package:note_book_flutter_app/localization/demo_localization.dart';
+import 'package:note_book_flutter_app/main.dart';
 import 'package:note_book_flutter_app/modules/language.dart';
 import 'package:note_book_flutter_app/modules/note.dart';
 
@@ -55,7 +57,8 @@ class NoteListState extends State<NoteList> {
               ),
               ListTile(
                 leading: Icon(Icons.info),
-                title: Text('About'),
+                title: Text(
+                    DemoLocalizations.of(context).getTranslatedValue("about")),
                 onTap: () {
                   // Update the state of the app
                   // ...
@@ -65,7 +68,8 @@ class NoteListState extends State<NoteList> {
               ),
               ListTile(
                 leading: Icon(Icons.settings),
-                title: Text('Settings'),
+                title: Text(DemoLocalizations.of(context)
+                    .getTranslatedValue("settings")),
                 onTap: () {
                   // Update the state of the app
                   // ...
@@ -80,7 +84,8 @@ class NoteListState extends State<NoteList> {
         appBar: AppBar(
           backgroundColor: Colors.pink,
           // leading: Icon(Icons.menu),
-          title: Text("App Notes"),
+          title:
+              Text(DemoLocalizations.of(context).getTranslatedValue("title")),
 
           actions: <Widget>[
             Padding(
@@ -165,7 +170,8 @@ class NoteListState extends State<NoteList> {
               },
             ),
             onTap: () {
-              navigateToNoteDetail(noteList[position], "Edit Note!");
+              navigateToNoteDetail(noteList[position],
+                  DemoLocalizations.of(context).getTranslatedValue("editNote"));
             },
           ),
         );
@@ -205,10 +211,11 @@ class NoteListState extends State<NoteList> {
 
   Widget createFloatingActionButton() {
     return FloatingActionButton(
-      tooltip: "Add Note",
+      tooltip: DemoLocalizations.of(context).getTranslatedValue("tooltipAdd"),
       backgroundColor: Colors.white,
       onPressed: () {
-        navigateToNoteDetail(Note('', '', 2), "Add Note!");
+        navigateToNoteDetail(Note('', '', 2),
+            DemoLocalizations.of(context).getTranslatedValue("addNote"));
       },
       child: Icon(
         Icons.note_add,
@@ -218,7 +225,19 @@ class NoteListState extends State<NoteList> {
   }
 
   void changeLanguage(Language language) {
-    debugPrint("###");
+    Locale _temp;
+    switch (language.languageCode) {
+      case 'en':
+        _temp = Locale(language.languageCode, "US");
+        break;
+      case 'ar':
+        _temp = Locale(language.languageCode, "EG");
+        break;
+      default:
+        _temp = Locale(language.languageCode, "US");
+    }
+
+    MyApp.setLocale(context, _temp);
   }
 
   Color getColorOfCard(String color) {
@@ -262,7 +281,10 @@ class NoteListState extends State<NoteList> {
   void _delete(BuildContext context, Note note) async {
     int result = await databaseHelper.deleteNote(note.noteId);
     if (result != 0) {
-      showSnackBar(context, 'Note Deleted Successfully');
+      showSnackBar(
+          context,
+          DemoLocalizations.of(context)
+              .getTranslatedValue("noteDeletedSuccessfully"));
       updateListView();
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_book_flutter_app/localization/demo_localization.dart';
 
 class ExitConfirmationDialog extends StatelessWidget {
   //TextStyle txtStyle = Theme.of(context).textTheme.subtitle2;
@@ -41,7 +42,8 @@ class ExitConfirmationDialog extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'Are You Sure to delete it?',
+              DemoLocalizations.of(context)
+                  .getTranslatedValue("areYouSuretodeleteIt"),
               style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -71,7 +73,7 @@ class ExitConfirmationDialog extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    'No',
+                    DemoLocalizations.of(context).getTranslatedValue("no"),
                     style: TextStyle(fontSize: 15),
                   ),
                   textColor: Colors.white,
@@ -84,7 +86,7 @@ class ExitConfirmationDialog extends StatelessWidget {
                     return Navigator.of(context).pop(true);
                   },
                   child: Text(
-                    'Yes',
+                    DemoLocalizations.of(context).getTranslatedValue("yes"),
                     style: TextStyle(fontSize: 15),
                   ),
                   color: Colors.white,
