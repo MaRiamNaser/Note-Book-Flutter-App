@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:note_book_flutter_app/localization/demo_localization.dart';
 
 class ExitConfirmationDialog extends StatelessWidget {
-  //TextStyle txtStyle = Theme.of(context).textTheme.subtitle2;
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -16,7 +15,7 @@ class ExitConfirmationDialog extends StatelessWidget {
   _buildChild(BuildContext context) => Container(
         height: 300,
         decoration: BoxDecoration(
-            color: Colors.pinkAccent,
+            color: Colors.blueGrey,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Column(
@@ -47,6 +46,7 @@ class ExitConfirmationDialog extends StatelessWidget {
               style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
+                  fontFamily: 'Chewy',
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -74,7 +74,10 @@ class ExitConfirmationDialog extends StatelessWidget {
                   },
                   child: Text(
                     DemoLocalizations.of(context).getTranslatedValue("no"),
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'Chewy',
+                    ),
                   ),
                   textColor: Colors.white,
                 ),
@@ -87,7 +90,10 @@ class ExitConfirmationDialog extends StatelessWidget {
                   },
                   child: Text(
                     DemoLocalizations.of(context).getTranslatedValue("yes"),
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'Chewy',
+                    ),
                   ),
                   color: Colors.white,
                   textColor: Colors.pinkAccent,

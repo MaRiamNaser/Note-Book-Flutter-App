@@ -37,6 +37,9 @@ class NoteDetailsState extends State<NoteDetails> {
   NoteDetailsState(this.note, this.titleApp);
   var selectedCor;
   var selectedPriority;
+  TextStyle txtStyleSmall;
+  TextStyle txtStyleBig;
+  TextStyle txtStyle;
   @override
   void initState() {
     super.initState();
@@ -49,97 +52,120 @@ class NoteDetailsState extends State<NoteDetails> {
     titleCon.text = this.note.noteTitle;
     descriptionCon.text = this.note.noteDescription;
 
-    TextStyle txtStyle = Theme.of(context).textTheme.subtitle2;
+    // TextStyle txtStyle = Theme.of(context).textTheme.subtitle2;
+
+    txtStyleBig = TextStyle(
+      fontFamily: 'Chewy',
+      fontSize: 35.0,
+    );
+    txtStyle = TextStyle(
+      fontFamily: 'Chewy',
+      fontSize: 20.0,
+    );
+
+    txtStyleSmall = TextStyle(
+      fontFamily: 'Chewy',
+      fontSize: 17.0,
+    );
 
     return WillPopScope(
         onWillPop: () {
           moveToLastScreen();
-          return;
         },
         child: Scaffold(
           backgroundColor: Colors.black87,
           appBar: AppBar(
             title: Text(
               titleApp,
-              style: txtStyle,
+              style: txtStyleBig,
             ),
+            backgroundColor: Color.fromRGBO(15, 76, 117, 1),
           ),
-          body: ListView(
-            children: <Widget>[
-              Center(
-                child: Row(
+          body: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: <Color>[
+              // Color.fromRGBO(190, 86, 131, 1),
+              Colors.blueGrey,
+              Color.fromRGBO(72, 166, 181, 1),
+              //Color.fromRGBO(145, 63, 97, 1),
+            ])),
+            child: ListView(
+              children: <Widget>[
+                Row(children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 10, bottom: 10, left: 20, right: 5),
+                    child: Text(
+                      DemoLocalizations.of(context).getTranslatedValue("color"),
+                      style: txtStyle,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(
+                      10,
+                    ),
+                    child: createDropDownButtonColor(colorList, selectedCor),
+                  ),
+                ]),
+                Row(
                   children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Text(DemoLocalizations.of(context)
-                            .getTranslatedValue("color")),
-                      ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 10, bottom: 10, left: 20, right: 5),
+                      child: Text(
+                          DemoLocalizations.of(context)
+                              .getTranslatedValue("priority"),
+                          style: txtStyle),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 1),
-                        child:
-                            createDropDownButtonColor(colorList, selectedCor),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Text(DemoLocalizations.of(context)
-                            .getTranslatedValue("priority")),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 30),
-                        child: createDropDownButton(
-                            prioritiesList, selectedPriority),
-                      ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: createDropDownButton(
+                          prioritiesList, selectedPriority),
                     ),
                   ],
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(15),
-                child: createTextFormField(
-                    DemoLocalizations.of(context).getTranslatedValue("heading"),
-                    DemoLocalizations.of(context)
-                        .getTranslatedValue("enterTitleOfYourNote"),
-                    txtStyle,
-                    titleCon,
-                    2),
-              ),
-              Padding(
-                padding: EdgeInsets.all(15),
-                child: createTextFormField(
-                    DemoLocalizations.of(context)
-                        .getTranslatedValue("description"),
-                    DemoLocalizations.of(context)
-                        .getTranslatedValue("enterDescriptionOfYourNote"),
-                    txtStyle,
-                    descriptionCon,
-                    5),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: createButton(DemoLocalizations.of(context)
-                          .getTranslatedValue("save")),
-                    ),
-                    Container(
-                      width: 15.0,
-                    ),
-                    Expanded(
-                      child: createButton(DemoLocalizations.of(context)
-                          .getTranslatedValue("delete")),
-                    )
-                  ],
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: createTextFormField(
+                      DemoLocalizations.of(context)
+                          .getTranslatedValue("heading"),
+                      DemoLocalizations.of(context)
+                          .getTranslatedValue("enterTitleOfYourNote"),
+                      txtStyle,
+                      titleCon,
+                      2),
                 ),
-              )
-            ],
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: createTextFormField(
+                      DemoLocalizations.of(context)
+                          .getTranslatedValue("description"),
+                      DemoLocalizations.of(context)
+                          .getTranslatedValue("enterDescriptionOfYourNote"),
+                      txtStyle,
+                      descriptionCon,
+                      5),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: createButton(DemoLocalizations.of(context)
+                            .getTranslatedValue("save")),
+                      ),
+                      Container(
+                        width: 15.0,
+                      ),
+                      Expanded(
+                        child: createButton(DemoLocalizations.of(context)
+                            .getTranslatedValue("delete")),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ));
   }
@@ -149,7 +175,7 @@ class NoteDetailsState extends State<NoteDetails> {
       items: menue.map((String item) {
         return DropdownMenuItem(
           value: item, // Traverse the whole list!
-          child: Text(item),
+          child: Text(item, style: txtStyleSmall),
         );
       }).toList(),
       value: getPriorityAsString(this.note.notePriority),
@@ -166,7 +192,7 @@ class NoteDetailsState extends State<NoteDetails> {
       items: menue.map((String item) {
         return DropdownMenuItem(
           value: item, // Traverse the whole list!
-          child: Text(item),
+          child: Text(item, style: txtStyleSmall),
         );
       }).toList(),
       value: getColor(),
@@ -206,36 +232,49 @@ class NoteDetailsState extends State<NoteDetails> {
   }
 
   Widget createButton(var textButton) {
-    return RaisedButton(
-      color: Colors.pinkAccent,
-      textColor: Theme.of(context).primaryColor,
-      child: Text(
-        textButton,
-        textScaleFactor: 1.5,
-      ),
-      onPressed: () {
-        setState(() {
-          if (textButton == "Save!" || textButton == "حفظ!") {
-            _save();
-          } else if (textButton == "Delete!" || textButton == "حذف!") {
-            if (this.note.noteId == null) {
-              _delete();
-            } else {
-              var res = showDialog(
-                  context: context,
-                  builder: (context) => ExitConfirmationDialog());
+    return Container(
+      //padding: EdgeInsets.all(0),
+      // shape: StadiumBorder(),
 
-              setState(() {
-                res.then((value) {
-                  if (value == true) {
-                    _delete();
-                  }
-                });
-              });
-            }
-          }
-        });
-      },
+      child: Container(
+        width: 30,
+        child: RaisedButton(
+          elevation: 20,
+          highlightElevation: 20,
+          hoverElevation: 0,
+          shape: StadiumBorder(),
+          color: Colors.black45,
+          textColor: Colors.white,
+          child: Text(
+            textButton,
+            textScaleFactor: 1.5,
+            style: txtStyle,
+          ),
+          onPressed: () {
+            setState(() {
+              if (textButton == "Save!" || textButton == "حفظ!") {
+                _save();
+              } else {
+                if (this.note.noteId == null) {
+                  _delete();
+                } else {
+                  var res = showDialog(
+                      context: context,
+                      builder: (context) => ExitConfirmationDialog());
+
+                  setState(() {
+                    res.then((value) {
+                      if (value == true) {
+                        _delete();
+                      }
+                    });
+                  });
+                }
+              }
+            });
+          },
+        ),
+      ),
     );
   }
 
@@ -284,7 +323,10 @@ class NoteDetailsState extends State<NoteDetails> {
 
   void showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(
-      content: Text(message),
+      content: Text(
+        message,
+        style: txtStyle,
+      ),
       duration: Duration(seconds: 1),
     );
     Scaffold.of(context).showSnackBar(snackBar);
@@ -319,8 +361,8 @@ class NoteDetailsState extends State<NoteDetails> {
 
   void _showAlertDialog(String title, String message) {
     AlertDialog alertDialog = AlertDialog(
-      title: Text(title),
-      content: Text(message),
+      title: Text(title, style: txtStyleBig),
+      content: Text(message, style: txtStyle),
     );
     showDialog(context: context, builder: (_) => alertDialog);
   }
