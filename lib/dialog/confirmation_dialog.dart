@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:note_book_flutter_app/localization/demo_localization.dart';
 
 class ExitConfirmationDialog extends StatelessWidget {
   @override
@@ -41,8 +40,9 @@ class ExitConfirmationDialog extends StatelessWidget {
               height: 20,
             ),
             Text(
-              DemoLocalizations.of(context)
-                  .getTranslatedValue("areYouSuretodeleteIt"),
+              /*DemoLocalizations.of(context)
+                  .getTranslatedValue("areYouSuretodeleteIt"),*/
+              "Are You sure to delete it?🔪🔪",
               style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -73,7 +73,8 @@ class ExitConfirmationDialog extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    DemoLocalizations.of(context).getTranslatedValue("no"),
+                    /*DemoLocalizations.of(context).getTranslatedValue("no"),*/
+                    "No",
                     style: TextStyle(
                       fontSize: 15,
                       fontFamily: 'Chewy',
@@ -89,7 +90,8 @@ class ExitConfirmationDialog extends StatelessWidget {
                     return Navigator.of(context).pop(true);
                   },
                   child: Text(
-                    DemoLocalizations.of(context).getTranslatedValue("yes"),
+                    /*DemoLocalizations.of(context).getTranslatedValue("yes"),*/
+                    "Yes",
                     style: TextStyle(
                       fontSize: 15,
                       fontFamily: 'Chewy',

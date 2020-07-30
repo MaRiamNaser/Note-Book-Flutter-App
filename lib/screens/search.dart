@@ -77,7 +77,6 @@ class SearchItem extends SearchDelegate<Note> {
 
   void navigateToNoteDetail(
       Note note, String title, BuildContext context) async {
-    var res =
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return NoteDetails(note, title);
     }));

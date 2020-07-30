@@ -197,7 +197,8 @@ class NoteListState extends State<NoteList> {
       itemBuilder: (BuildContext context, int position) {
         return position == 0
             ? _searchBar()
-            : _listItem(position - 1, count, txtStyle);
+            : _listItem(position - 1, count, txtStyle,
+                context); // You Must Pass the same context!!!
       },
       itemCount: _notesForDisplay.length + 1,
     );
@@ -231,13 +232,14 @@ class NoteListState extends State<NoteList> {
     );
   }
 
-  _listItem(position, int count, TextStyle txtStyle) {
+  _listItem(position, int count, TextStyle txtStyle, BuildContext context) {
     var card = Card(
-      color: getColorOfCard(this.noteList[position].noteColor),
+      color: getColorOfCard(this._notesForDisplay[position].noteColor),
       elevation: 2.0,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: getPriorityColor(this.noteList[position].priority),
+          backgroundColor:
+              getPriorityColor(this._notesForDisplay[position].priority),
           child: getPriorityIcon(this._notesForDisplay[position].priority),
         ),
         title: Text(
@@ -259,10 +261,10 @@ class NoteListState extends State<NoteList> {
                 builder: (context) => ExitConfirmationDialog());
 
             setState(() {
-              res.then((value) {
+              res.then((value) async {
                 if (value == true) {
-                  _delete(context, noteList[position]);
-                  //_delete(context, _notesForDisplay[position]);
+                  // _delete(context, noteList[position]);
+                  _delete(context, _notesForDisplay[position]);
                 }
               });
             });
@@ -348,7 +350,7 @@ class NoteListState extends State<NoteList> {
     } else if (color == "Pink") {
       return Colors.pink;
     } else if (color == "Grey") {
-      return Colors.blue;
+      return Colors.grey;
     } else {
       return Colors.blue;
     }
@@ -386,15 +388,29 @@ class NoteListState extends State<NoteList> {
   }
 
   void _delete(BuildContext context, Note note) async {
+    noteList = _notesForDisplay;
     int result = await databaseHelper.deleteNote(note.noteId);
-    if (result != 0) {
-      showSnackBar(
+    // _notesForDisplay = noteList;
+    noteList = _notesForDisplay;
+    //result = await databaseHelper.deleteNote(note.noteId);
+    debugPrint("******#####******");
+    print(result);
+    setState(() {
+      if (result != 0) {
+        debugPrint("******#####******");
+
+        showSnackBar(
           context,
           DemoLocalizations.of(context)
-              .getTranslatedValue("noteDeletedSuccessfully"));
-      // _notesForDisplay = noteList;
-      updateListView();
-    }
+              .getTranslatedValue("noteDeletedSuccessfully")
+          /*"Note Deleted Successfully!"*/,
+        );
+
+        _notesForDisplay = noteList;
+        updateListView();
+        debugPrint("******##### AFTER ******");
+      }
+    });
   }
 
   void showSnackBar(BuildContext context, String message) {

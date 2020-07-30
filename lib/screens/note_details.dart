@@ -69,6 +69,7 @@ class NoteDetailsState extends State<NoteDetails> {
     );
 
     return WillPopScope(
+        // ignore: missing_return
         onWillPop: () {
           moveToLastScreen();
         },
@@ -237,7 +238,7 @@ class NoteDetailsState extends State<NoteDetails> {
       // shape: StadiumBorder(),
 
       child: Container(
-        width: 30,
+        //width: 30,
         child: RaisedButton(
           elevation: 20,
           highlightElevation: 20,
@@ -256,7 +257,7 @@ class NoteDetailsState extends State<NoteDetails> {
                 _save();
               } else {
                 if (this.note.noteId == null) {
-                  _delete();
+                  _delete(context);
                 } else {
                   var res = showDialog(
                       context: context,
@@ -265,7 +266,7 @@ class NoteDetailsState extends State<NoteDetails> {
                   setState(() {
                     res.then((value) {
                       if (value == true) {
-                        _delete();
+                        _delete(context);
                       }
                     });
                   });
@@ -332,7 +333,7 @@ class NoteDetailsState extends State<NoteDetails> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-  void _delete() async {
+  void _delete(BuildContext context) async {
     moveToLastScreen();
 
     // Case 1: If user is trying to delete the NEW NOTE i.e. he has come to
